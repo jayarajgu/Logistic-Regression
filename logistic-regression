@@ -1,0 +1,52 @@
+# Logistic Regression
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+dataset = pd.read_csv("iris.csv")
+
+dataset.describe
+
+dataset.describe
+
+dataset.isnull().sum()
+
+# input
+x = dataset.iloc[:, [2, 3]].values
+# output
+y = dataset.iloc[:, 4].values
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(x, y, test_size = 0.25, random_state = 0)
+
+from sklearn.preprocessing import StandardScaler
+sc_x = StandardScaler()
+X_train = sc_x.fit_transform(X_train)
+X_test = sc_x.transform(X_test)
+print (X_train[0:10, :])
+
+from sklearn.linear_model import LogisticRegression
+classifier = LogisticRegression(random_state = 1)
+classifier.fit(X_train, Y_train)
+
+Y_pred = classifier.predict(X_test)
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(Y_test, Y_pred)
+print ("Confusion Matrix : \n", cm)
+
+from sklearn.metrics import accuracy_score
+print ("Accuracy : ", accuracy_score(Y_test, Y_pred))
+
+# Plot confusion matrix
+import seaborn as sns
+import pandas as pd
+# confusion matrix sns heatmap 
+ax = plt.axes()
+df_cm = cm
+sns.heatmap(df_cm, annot=True, annot_kws={"size": 30}, fmt='d',cmap="Blues", ax = ax )
+ax.set_title('Confusion Matrix')
+plt.show()
+
+
+
